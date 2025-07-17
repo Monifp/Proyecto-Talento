@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>productos &#8212; documentación de Proyecto Talento - 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=4936afed"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para productos</h1><div class="highlight"><pre>
+<span></span> <span class="c1"># productos.py</span>
+<span class="sd">&quot;&quot;&quot;Módulo de lógica de negocio para la gestión de productos.</span>
+<span class="sd">Responsable de agregar, modificar, eliminar y listar productos,</span>
+<span class="sd">con validaciones y manejo de errores.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">database</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">db</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ui</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">database</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">db</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ui</span>
+
+<div class="viewcode-block" id="agregar_nuevo_producto">
+<a class="viewcode-back" href="../productos.html#productos.agregar_nuevo_producto">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">agregar_nuevo_producto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orquesta la adición de un nuevo producto.</span>
+<span class="sd">    Muestra un menú de categorías y permite al usuario seleccionar una o crear una nueva.</span>
+<span class="sd">    Valida que el nombre, descripción, cantidad y precio sean correctos.</span>
+<span class="sd">    Si la categoría no existe, permite crearla. </span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">categorias</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">obtener_categorias_db</span><span class="p">()</span>
+    <span class="n">categoria_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Por favor, elija una categoría o cree una nueva:&quot;</span><span class="p">)</span>
+     
+    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_seleccion_con_opcion_nueva</span><span class="p">(</span><span class="n">categorias</span><span class="p">,</span> <span class="s2">&quot;Crear una nueva categoría&quot;</span><span class="p">)</span>
+    
+    <span class="n">opcion_crear_nueva</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para seleccionar o crear categoría</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">opcion_elegida</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Seleccione una opción: &quot;</span><span class="p">))</span>
+            
+            <span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">opcion_elegida</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">):</span>
+                <span class="c1"># El usuario eligió una categoría existente</span>
+                <span class="n">categoria_id</span> <span class="o">=</span> <span class="n">categorias</span><span class="p">[</span><span class="n">opcion_elegida</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="n">opcion_elegida</span> <span class="o">==</span> <span class="n">opcion_crear_nueva</span><span class="p">:</span>
+                <span class="c1"># El usuario eligió crear una nueva categoría</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">nombre_cat</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nombre de la nueva categoría: &quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">nombre_cat</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="c1"># Se llama a la función de DB que retorna el ID</span>
+                            <span class="n">categoria_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">agregar_categoria_db</span><span class="p">(</span><span class="n">nombre_cat</span><span class="p">)</span>
+                            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Categoría &#39;</span><span class="si">{</span><span class="n">nombre_cat</span><span class="si">}</span><span class="s2">&#39; creada.&quot;</span><span class="p">)</span>
+                            <span class="k">break</span>
+                        <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+                            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La categoría &#39;</span><span class="si">{</span><span class="n">nombre_cat</span><span class="si">}</span><span class="s2">&#39; ya existe. Intente con otro nombre.&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">categoria_id</span><span class="p">:</span>
+                    <span class="k">break</span> <span class="c1"># Salir del bucle principal de selección</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Opción fuera de rango.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número.&quot;</span><span class="p">)</span>
+
+     
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para ingresar los datos del producto</span>
+        
+        <span class="n">nombre</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nombre del producto: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nombre</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
+
+     
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para ingresar la descripción del producto</span>
+        <span class="n">descripcion</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese la descripción del producto: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">descripcion</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;La descripción no puede estar vacía.&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para ingresar la cantidad del producto</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cantidad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese la cantidad inicial en stock: &quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cantidad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;La cantidad debe ser mayor a cero.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número entero.&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para ingresar el precio del producto</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">precio</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el precio del producto (entero): &quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">precio</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El precio no puede ser negativo.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número entero.&quot;</span><span class="p">)</span>
+
+    <span class="n">db</span><span class="o">.</span><span class="n">agregar_producto_db</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">descripcion</span><span class="p">,</span> <span class="n">cantidad</span><span class="p">,</span> <span class="n">precio</span><span class="p">,</span> <span class="n">categoria_id</span><span class="p">)</span>
+    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Producto &#39;</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">&#39; agregado.&quot;</span><span class="p">)</span></div>
+
+
+
+ 
+<div class="viewcode-block" id="modificar_un_producto">
+<a class="viewcode-back" href="../productos.html#productos.modificar_un_producto">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">modificar_un_producto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orquesta la modificación de un producto con validaciones.</span>
+<span class="sd">    Muestra una lista de productos y permite al usuario seleccionar uno por ID.</span>
+<span class="sd">    Valida que el ID sea correcto y permite modificar nombre, descripción,</span>
+<span class="sd">    cantidad, precio o categoría. Si la categoría no existe, permite crearla.   </span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">productos</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">obtener_productos_db</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_productos</span><span class="p">(</span><span class="n">productos</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para seleccionar el producto a modificar</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">id_prod_str</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el ID del producto a modificar: &quot;</span><span class="p">)</span>
+            <span class="n">id_prod</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_prod_str</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">id_prod</span> <span class="ow">in</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">productos</span><span class="p">]:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;ID de producto no válido.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un ID numérico.&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># Bucle para seleccionar el campo a modificar</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_menu_modificar_producto</span><span class="p">()</span>
+        <span class="n">opcion</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Seleccione una opción: &quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">nuevo_nombre</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nuevo nombre: &quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">nuevo_nombre</span><span class="p">:</span>
+                    <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="n">nuevo_nombre</span><span class="p">)</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Nombre actualizado.&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">nueva_desc</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese la nueva descripción: &quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">nueva_desc</span><span class="p">:</span>
+                    <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="n">nueva_desc</span><span class="p">)</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Descripción actualizada.&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;La descripción no puede estar vacía.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">nueva_cant</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese la nueva cantidad: &quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">nueva_cant</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;cantidad&#39;</span><span class="p">,</span> <span class="n">nueva_cant</span><span class="p">)</span>
+                        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Cantidad actualizada.&quot;</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;La cantidad no puede ser negativa.&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número entero.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">nuevo_precio</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nuevo precio: &quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">nuevo_precio</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;precio&#39;</span><span class="p">,</span> <span class="n">nuevo_precio</span><span class="p">)</span>
+                        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Precio actualizado.&quot;</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El precio no puede ser negativo.&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número entero.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span><span class="p">:</span>
+            <span class="n">categorias</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">obtener_categorias_db</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Elija la nueva categoría:&quot;</span><span class="p">)</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_seleccion_con_opcion_nueva</span><span class="p">(</span><span class="n">categorias</span><span class="p">,</span> <span class="s2">&quot;Crear nueva categoría&quot;</span><span class="p">)</span>  
+            <span class="n">opcion_crear</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">num_cat</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Seleccione el número: &quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">num_cat</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">):</span>
+                        <span class="n">nueva_cat_id</span> <span class="o">=</span> <span class="n">categorias</span><span class="p">[</span><span class="n">num_cat</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;categoria_id&#39;</span><span class="p">,</span> <span class="n">nueva_cat_id</span><span class="p">)</span>
+                        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Categoría actualizada.&quot;</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="c1"># Lógica para crear categoría al modificar  </span>
+                    <span class="k">elif</span> <span class="n">num_cat</span> <span class="o">==</span> <span class="n">opcion_crear</span><span class="p">:</span>
+                         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                            <span class="n">nombre_cat</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nombre de la nueva categoría: &quot;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">nombre_cat</span><span class="p">:</span>
+                                <span class="n">nueva_cat_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">agregar_categoria_db</span><span class="p">(</span><span class="n">nombre_cat</span><span class="p">)</span>
+                                <span class="n">db</span><span class="o">.</span><span class="n">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="s1">&#39;categoria_id&#39;</span><span class="p">,</span> <span class="n">nueva_cat_id</span><span class="p">)</span>
+                                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Categoría creada y producto actualizado.&quot;</span><span class="p">)</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
+                         <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Número fuera de rango.&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un número.&quot;</span><span class="p">)</span>
+            <span class="c1"># Rompemos el bucle de modificación de categoría</span>
+            <span class="k">if</span> <span class="s1">&#39;nueva_cat_id&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                <span class="k">break</span>
+
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;6&#39;</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="s2">&quot;Modificación finalizada.&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Opción inválida.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="eliminar_un_producto">
+<a class="viewcode-back" href="../productos.html#productos.eliminar_un_producto">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_un_producto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orquesta la eliminación de un producto por ID.</span>
+<span class="sd">    Muestra una lista de productos y permite al usuario seleccionar uno por ID.</span>
+<span class="sd">    Valida que el ID sea correcto y elimina el producto.</span>
+<span class="sd">    Si la eliminación es exitosa, muestra un mensaje de éxito.  </span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: no tiene&quot;&quot;&quot;</span>
+    <span class="n">productos</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">obtener_productos_db</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_productos</span><span class="p">(</span><span class="n">productos</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">id_prod_str</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el ID del producto a eliminar (o &#39;S&#39; para salir): &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">id_prod_str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="s2">&quot;Operación cancelada.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">id_prod</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_prod_str</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">id_prod</span> <span class="ow">in</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">productos</span><span class="p">]:</span>
+                <span class="n">db</span><span class="o">.</span><span class="n">eliminar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">)</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Producto eliminado.&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;ID de producto no válido.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Entrada no válida.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="buscar_un_producto">
+<a class="viewcode-back" href="../productos.html#productos.buscar_un_producto">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">buscar_un_producto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Orquesta la búsqueda de un producto por su ID.</span>
+<span class="sd">    Permite al usuario ingresar un ID y muestra los detalles del producto si existe.</span>
+<span class="sd">    Si el ID no es válido o el producto no se encuentra, muestra un mensaje de error.</span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">id_buscado</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el ID del producto a buscar: &quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un ID numérico.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">producto_encontrado</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">obtener_producto_por_id_db</span><span class="p">(</span><span class="n">id_buscado</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">producto_encontrado</span><span class="p">:</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_exito</span><span class="p">(</span><span class="s2">&quot;Producto encontrado:&quot;</span><span class="p">)</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_productos</span><span class="p">([</span><span class="n">producto_encontrado</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No se encontró ningún producto con el ID </span><span class="si">{</span><span class="n">id_buscado</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="gestionar_productos">
+<a class="viewcode-back" href="../productos.html#productos.gestionar_productos">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gestionar_productos</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Muestra el menú de gestión de productos y maneja las opciones.</span>
+<span class="sd">    Permite al usuario agregar, modificar, eliminar, buscar o listar productos.</span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_menu_productos</span><span class="p">()</span>
+        <span class="n">opcion</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Seleccione una opción: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+            <span class="n">agregar_nuevo_producto</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span>
+            <span class="n">modificar_un_producto</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_lista_productos</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">obtener_productos_db</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span>
+            <span class="n">buscar_un_producto</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span><span class="p">:</span>
+            <span class="n">eliminar_un_producto</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;6&#39;</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; Opción inválida.&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Proyecto Talento</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../productos.html">productos module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Monica Ferreiro Pose.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
