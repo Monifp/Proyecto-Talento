@@ -19,8 +19,10 @@ Este es un sistema de gestión de inventario que se ejecuta desde la consola. Pe
 
 ## 📋 Requisitos
 
-  * Python 3.x
+  * Python 3.8 o superior
   * Librería `colorama`
+  * SQLite (incluido en Python estándar)
+  * Sphinx (opcional, para documentación)
 
 -----
 
@@ -67,3 +69,26 @@ El proyecto está dividido en módulos, cada uno con una responsabilidad única 
 | `inventario.db`| 💾 **Base de Datos:** Archivo SQLite que se crea automáticamente para almacenar los datos. |
 
 
+## 📖 Documentacion
+
+  * Para **ver la documentacion**, ejecutá los siguientes comandos en tu terminal linea por linea, solo la primera vez:
+
+    ```bash
+    sphinx-quickstart docs
+    sphinx-apidoc -o docs/source/ .py
+    cd docs
+    make.bat html
+    ```
+    Luego abri: 
+    index.html desde el navegador
+
+    Si el comando make.bat html no funciona podes pobrar con:
+    Powershell
+    .\make.bat html
+
+## 🧑‍💻 Copyright
+
+**Monica Ferreiro Pose**
+
+---
+-----
