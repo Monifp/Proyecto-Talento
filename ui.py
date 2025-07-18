@@ -22,11 +22,10 @@ def mostrar_menu_principal():
     print(Fore.CYAN + "==========================\n")
 
 def mostrar_menu_productos():
-    """Imprime el submenú de gestión de productos.
+    """ Imprime el submenú de gestión de productos.
     Presenta las opciones para agregar, modificar, eliminar, buscar o listar productos.
     Args: no tiene
-    Returns: no tiene
-    """
+    Returns: no tiene"""
     print(Fore.CYAN + "\n--- Menú de Productos ---")
     print("1. ✅ Agregar producto")
     print("2. ✏️ Modificar producto")
@@ -37,12 +36,11 @@ def mostrar_menu_productos():
     print(Fore.CYAN + "-------------------------\n")
 
 def mostrar_menu_categorias():
-    """Imprime el submenú de gestión de categorías.
+    """ Imprime el submenú de gestión de categorías.
     Presenta las opciones para agregar, modificar, eliminar o listar categorías.
     Args: no tiene
     Returns: no tiene
     """
-    from colorama import Fore, Style
     print(Fore.CYAN + "\n--- Menú de Categorías ---")
     print("1. ✅  Agregar categoría")
     print("2. 👁️  Visualizar categorías")
@@ -53,11 +51,10 @@ def mostrar_menu_categorias():
 
 def mostrar_menu_modificar_producto():
     """Muestra las opciones para modificar un producto.
-        Permite al usuario elegir qué aspecto del producto desea cambiar:
-        nombre, descripción, cantidad, precio o categoría.      
-        Args: no tiene
-        Returns: no tiene  """
-    
+    Presenta las opciones de modificación disponibles: nombre, descripción,
+    cantidad, precio o categoría.
+    Args: no tiene      
+    Returns: no tiene"""
     print(Fore.CYAN + "\n--- ¿Qué desea modificar? ---")
     print("1. Nombre")
     print("2. Descripción")
@@ -69,25 +66,41 @@ def mostrar_menu_modificar_producto():
 
 def obtener_input(mensaje_prompt):
     """Obtiene una entrada del usuario con un estilo consistente.
-    Args : mensaje_prompt (str): El mensaje que se mostrará al usuario.
-    Returns: str: La entrada del usuario, sin espacios al inicio o final.
-     
- 
+    Utiliza colorama para formatear el mensaje de entrada.
+    Args:
+    mensaje_prompt: El mensaje a mostrar al usuario.
+    returns:
+    La entrada del usuario, sin espacios en blanco al inicio o final.
+
     """
     return input(f"{Fore.CYAN}{mensaje_prompt}{Style.RESET_ALL}").strip()
 
 def mostrar_lista_categorias(categorias):
     """Muestra una lista formateada de categorías.
-    Args: categorias (list): Lista de tuplas con ID y nombre de categorías.
-    Returns:un booleano: True si se mostraron categorías, False si la lista estaba vacía.
+    Si la lista está vacía, muestra un mensaje informativo.
+    Args:
+    categorias: Lista de categorías a mostrar.
+    Cada categoría es una tupla con (id, nombre).
+    Returns:
+    un booleano: True si se mostraron categorías, False si la lista estaba vacía.    
 
+
+     
     """
     if not categorias:
-        mostrar_mensaje_info("No hay categorías registradas.")
+        mostrar_mensaje_info(" No hay categorías registradas.")
         return False
+        
     print(Fore.MAGENTA + "\n--- Categorías Registradas ---")
+    
+     # Imprime el encabezado de la tabla
+    print(f"{Fore.YELLOW}{'ID':<5}{'Nombre':<30}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}{'-'*5}{'-'*30}{Style.RESET_ALL}")
+    
     for id_cat, nombre in categorias:
-        print(f"ID: {id_cat} | Nombre: {nombre}")
+         
+        print(f"{id_cat:<5}{nombre:<30}")
+        
     print(Fore.MAGENTA + "----------------------------\n")
     return True
 
@@ -111,14 +124,17 @@ def mostrar_lista_productos(productos):
     if not productos:
         mostrar_mensaje_info(" No hay productos registrados.")
         return False
+        
     print(Fore.MAGENTA + "\n--- Productos Registrados ---")
+    
+     #Imprime el encabezado de la tabla
+    print(f"{Fore.YELLOW}{'ID':<5}{'Nombre':<25}{'Descripción':<40}{'Cantidad':<10}{'Precio':<10}{'Categoría':<20}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}{'-'*5}{'-'*25}{'-'*40}{'-'*10}{'-'*10}{'-'*20}{Style.RESET_ALL}")
+    
     for id_prod, nombre, desc, cant, precio, cat in productos:
-        print(f"{Fore.YELLOW}ID: {Style.RESET_ALL}{id_prod} | "
-              f"{Fore.YELLOW}Nombre: {Style.RESET_ALL}{nombre} | "
-              f"{Fore.YELLOW}Descripción: {Style.RESET_ALL}{desc} | "
-              f"{Fore.YELLOW}Cantidad: {Style.RESET_ALL}{cant} | "
-              f"{Fore.YELLOW}Precio: {Style.RESET_ALL}${precio} | "
-              f"{Fore.YELLOW}Categoría: {Style.RESET_ALL}{cat}")
+        # Se ajusta el formato para alinear con el encabezado
+        print(f"{id_prod:<5}{nombre:<25}{desc:<40}{cant:<10}${precio:<9}{cat:<20}")
+        
     print(Fore.MAGENTA + "---------------------------\n")
     return True
 
@@ -133,12 +149,17 @@ def mostrar_reporte_stock(productos, limite):
     if not productos:
         mostrar_mensaje_info(f"No hay productos con una cantidad igual o inferior a {limite}.")
         return
+        
     print(Fore.RED + f"\n--- REPORTE: PRODUCTOS CON STOCK BAJO (<= {limite}) ---")
+    
+    # Imprime el  encabezado para el reporte 
+    print(f"{Fore.YELLOW}{'ID':<5}{'Nombre':<25}{'Cantidad':<10}{'Categoría':<20}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}{'-'*5}{'-'*25}{'-'*10}{'-'*20}{Style.RESET_ALL}")
+    
     for id_prod, nombre, desc, cant, precio, cat in productos:
-         print(f"{Fore.YELLOW}Nombre: {Style.RESET_ALL}{nombre} | "
-              f"{Back.RED}{Style.BRIGHT}Cantidad: {cant}{Style.RESET_ALL} | "
-              f"{Fore.YELLOW}ID: {Style.RESET_ALL}{id_prod} | "
-              f"{Fore.YELLOW}Categoría: {Style.RESET_ALL}{cat}")
+        
+        print(f"{id_prod:<5}{nombre:<25}{Back.RED}{Style.BRIGHT}{cant:<10}{Style.RESET_ALL}{cat:<20}")
+        
     print(Fore.RED + "--------------------------------------------------\n")
 
 def mostrar_mensaje_exito(mensaje):
@@ -160,4 +181,4 @@ def mostrar_mensaje_info(mensaje):
     Args: mensaje (str): El texto del mensaje informativo a mostrar.
     Returns: no tiene
     """
-    print(Fore.YELLOW + f"ℹ️ {mensaje}") 
+    print(Fore.YELLOW + f"ℹ️ {mensaje}")

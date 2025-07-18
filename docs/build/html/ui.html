@@ -15,6 +15,7 @@
     <script src="_static/translations.js?v=f85f4cfb"></script>
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="categorias module" href="categorias.html" />
     <link rel="prev" title="productos module" href="productos.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -43,8 +44,12 @@ utilizando la librería “colorama” para mejorar la experiencia.</p>
 <dt class="sig sig-object py" id="ui.mostrar_lista_categorias">
 <span class="sig-prename descclassname"><span class="pre">ui.</span></span><span class="sig-name descname"><span class="pre">mostrar_lista_categorias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">categorias</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ui.html#mostrar_lista_categorias"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ui.mostrar_lista_categorias" title="Link to this definition">¶</a></dt>
 <dd><p>Muestra una lista formateada de categorías.
-Args: categorias (list): Lista de tuplas con ID y nombre de categorías.
-Returns:un booleano: True si se mostraron categorías, False si la lista estaba vacía.</p>
+Si la lista está vacía, muestra un mensaje informativo.
+Args:
+categorias: Lista de categorías a mostrar.
+Cada categoría es una tupla con (id, nombre).
+Returns:
+un booleano: True si se mostraron categorías, False si la lista estaba vacía.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -102,8 +107,8 @@ Returns: no tiene</p>
 <dt class="sig sig-object py" id="ui.mostrar_menu_modificar_producto">
 <span class="sig-prename descclassname"><span class="pre">ui.</span></span><span class="sig-name descname"><span class="pre">mostrar_menu_modificar_producto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ui.html#mostrar_menu_modificar_producto"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ui.mostrar_menu_modificar_producto" title="Link to this definition">¶</a></dt>
 <dd><p>Muestra las opciones para modificar un producto.
-Permite al usuario elegir qué aspecto del producto desea cambiar:
-nombre, descripción, cantidad, precio o categoría.
+Presenta las opciones de modificación disponibles: nombre, descripción,
+cantidad, precio o categoría.
 Args: no tiene
 Returns: no tiene</p>
 </dd></dl>
@@ -141,8 +146,11 @@ Returns: no tiene</p>
 <dt class="sig sig-object py" id="ui.obtener_input">
 <span class="sig-prename descclassname"><span class="pre">ui.</span></span><span class="sig-name descname"><span class="pre">obtener_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mensaje_prompt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ui.html#obtener_input"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ui.obtener_input" title="Link to this definition">¶</a></dt>
 <dd><p>Obtiene una entrada del usuario con un estilo consistente.
-Args : mensaje_prompt (str): El mensaje que se mostrará al usuario.
-Returns: str: La entrada del usuario, sin espacios al inicio o final.</p>
+Utiliza colorama para formatear el mensaje de entrada.
+Args:
+mensaje_prompt: El mensaje a mostrar al usuario.
+returns:
+La entrada del usuario, sin espacios en blanco al inicio o final.</p>
 </dd></dl>
 
 </section>
@@ -181,6 +189,7 @@ Returns: str: La entrada del usuario, sin espacios al inicio o final.</p>
 <li class="toctree-l2"><a class="reference internal" href="inventario.html">inventario module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="productos.html">productos module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">ui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="categorias.html">categorias module</a></li>
 </ul>
 </li>
 </ul>
@@ -191,6 +200,7 @@ Returns: str: La entrada del usuario, sin espacios al inicio o final.</p>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">Proyecto Talento</a><ul>
       <li>Previous: <a href="productos.html" title="capítulo anterior">productos module</a></li>
+      <li>Next: <a href="categorias.html" title="próximo capítulo">categorias module</a></li>
   </ul></li>
   </ul></li>
 </ul>

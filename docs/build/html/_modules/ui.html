@@ -61,11 +61,10 @@
 <div class="viewcode-block" id="mostrar_menu_productos">
 <a class="viewcode-back" href="../ui.html#ui.mostrar_menu_productos">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mostrar_menu_productos</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Imprime el submenú de gestión de productos.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Imprime el submenú de gestión de productos.</span>
 <span class="sd">    Presenta las opciones para agregar, modificar, eliminar, buscar o listar productos.</span>
 <span class="sd">    Args: no tiene</span>
-<span class="sd">    Returns: no tiene</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Returns: no tiene&quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Menú de Productos ---&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. ✅ Agregar producto&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. ✏️ Modificar producto&quot;</span><span class="p">)</span>
@@ -79,12 +78,11 @@
 <div class="viewcode-block" id="mostrar_menu_categorias">
 <a class="viewcode-back" href="../ui.html#ui.mostrar_menu_categorias">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mostrar_menu_categorias</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Imprime el submenú de gestión de categorías.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Imprime el submenú de gestión de categorías.</span>
 <span class="sd">    Presenta las opciones para agregar, modificar, eliminar o listar categorías.</span>
 <span class="sd">    Args: no tiene</span>
 <span class="sd">    Returns: no tiene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">colorama</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Style</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Menú de Categorías ---&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. ✅  Agregar categoría&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. 👁️  Visualizar categorías&quot;</span><span class="p">)</span>
@@ -98,11 +96,10 @@
 <a class="viewcode-back" href="../ui.html#ui.mostrar_menu_modificar_producto">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mostrar_menu_modificar_producto</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Muestra las opciones para modificar un producto.</span>
-<span class="sd">        Permite al usuario elegir qué aspecto del producto desea cambiar:</span>
-<span class="sd">        nombre, descripción, cantidad, precio o categoría.      </span>
-<span class="sd">        Args: no tiene</span>
-<span class="sd">        Returns: no tiene  &quot;&quot;&quot;</span>
-    
+<span class="sd">    Presenta las opciones de modificación disponibles: nombre, descripción,</span>
+<span class="sd">    cantidad, precio o categoría.</span>
+<span class="sd">    Args: no tiene      </span>
+<span class="sd">    Returns: no tiene&quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- ¿Qué desea modificar? ---&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Nombre&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Descripción&quot;</span><span class="p">)</span>
@@ -117,10 +114,12 @@
 <a class="viewcode-back" href="../ui.html#ui.obtener_input">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">obtener_input</span><span class="p">(</span><span class="n">mensaje_prompt</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtiene una entrada del usuario con un estilo consistente.</span>
-<span class="sd">    Args : mensaje_prompt (str): El mensaje que se mostrará al usuario.</span>
-<span class="sd">    Returns: str: La entrada del usuario, sin espacios al inicio o final.</span>
-<span class="sd">     </span>
-<span class="sd"> </span>
+<span class="sd">    Utiliza colorama para formatear el mensaje de entrada.</span>
+<span class="sd">    Args:</span>
+<span class="sd">    mensaje_prompt: El mensaje a mostrar al usuario.</span>
+<span class="sd">    returns:</span>
+<span class="sd">    La entrada del usuario, sin espacios en blanco al inicio o final.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span><span class="si">}{</span><span class="n">mensaje_prompt</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 
@@ -129,16 +128,30 @@
 <a class="viewcode-back" href="../ui.html#ui.mostrar_lista_categorias">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mostrar_lista_categorias</span><span class="p">(</span><span class="n">categorias</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Muestra una lista formateada de categorías.</span>
-<span class="sd">    Args: categorias (list): Lista de tuplas con ID y nombre de categorías.</span>
-<span class="sd">    Returns:un booleano: True si se mostraron categorías, False si la lista estaba vacía.</span>
+<span class="sd">    Si la lista está vacía, muestra un mensaje informativo.</span>
+<span class="sd">    Args:</span>
+<span class="sd">    categorias: Lista de categorías a mostrar.</span>
+<span class="sd">    Cada categoría es una tupla con (id, nombre).</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    un booleano: True si se mostraron categorías, False si la lista estaba vacía.    </span>
 
+
+<span class="sd">     </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">categorias</span><span class="p">:</span>
-        <span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="s2">&quot;No hay categorías registradas.&quot;</span><span class="p">)</span>
+        <span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="s2">&quot; No hay categorías registradas.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Categorías Registradas ---&quot;</span><span class="p">)</span>
+    
+     <span class="c1"># Imprime el encabezado de la tabla</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;ID&#39;</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="s1">&#39;Nombre&#39;</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">5</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">30</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
     <span class="k">for</span> <span class="n">id_cat</span><span class="p">,</span> <span class="n">nombre</span> <span class="ow">in</span> <span class="n">categorias</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ID: </span><span class="si">{</span><span class="n">id_cat</span><span class="si">}</span><span class="s2"> | Nombre: </span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+         
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_cat</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="n">nombre</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span> <span class="o">+</span> <span class="s2">&quot;----------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -168,14 +181,17 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">productos</span><span class="p">:</span>
         <span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="s2">&quot; No hay productos registrados.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Productos Registrados ---&quot;</span><span class="p">)</span>
+    
+     <span class="c1">#Imprime el encabezado de la tabla</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;ID&#39;</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="s1">&#39;Nombre&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}{</span><span class="s1">&#39;Descripción&#39;</span><span class="si">:</span><span class="s2">&lt;40</span><span class="si">}{</span><span class="s1">&#39;Cantidad&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}{</span><span class="s1">&#39;Precio&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}{</span><span class="s1">&#39;Categoría&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">5</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">25</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">40</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">10</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">10</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">20</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
     <span class="k">for</span> <span class="n">id_prod</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">cant</span><span class="p">,</span> <span class="n">precio</span><span class="p">,</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">productos</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">ID: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">id_prod</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Nombre: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">nombre</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Descripción: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">desc</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Cantidad: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">cant</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Precio: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">$</span><span class="si">{</span><span class="n">precio</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Categoría: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">cat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Se ajusta el formato para alinear con el encabezado</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_prod</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="n">nombre</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}{</span><span class="n">desc</span><span class="si">:</span><span class="s2">&lt;40</span><span class="si">}{</span><span class="n">cant</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">$</span><span class="si">{</span><span class="n">precio</span><span class="si">:</span><span class="s2">&lt;9</span><span class="si">}{</span><span class="n">cat</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">MAGENTA</span> <span class="o">+</span> <span class="s2">&quot;---------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -193,12 +209,17 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">productos</span><span class="p">:</span>
         <span class="n">mostrar_mensaje_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No hay productos con una cantidad igual o inferior a </span><span class="si">{</span><span class="n">limite</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- REPORTE: PRODUCTOS CON STOCK BAJO (&lt;= </span><span class="si">{</span><span class="n">limite</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Imprime el  encabezado para el reporte </span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;ID&#39;</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="s1">&#39;Nombre&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}{</span><span class="s1">&#39;Cantidad&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}{</span><span class="s1">&#39;Categoría&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">5</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">25</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">10</span><span class="si">}{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">20</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
     <span class="k">for</span> <span class="n">id_prod</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">cant</span><span class="p">,</span> <span class="n">precio</span><span class="p">,</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">productos</span><span class="p">:</span>
-         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Nombre: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">nombre</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Back</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}</span><span class="s2">Cantidad: </span><span class="si">{</span><span class="n">cant</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">ID: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">id_prod</span><span class="si">}</span><span class="s2"> | &quot;</span>
-              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span><span class="si">}</span><span class="s2">Categoría: </span><span class="si">{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">cat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">id_prod</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}{</span><span class="n">nombre</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}{</span><span class="n">Back</span><span class="o">.</span><span class="n">RED</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span><span class="si">}{</span><span class="n">cant</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}{</span><span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span><span class="si">}{</span><span class="n">cat</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
     <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">RED</span> <span class="o">+</span> <span class="s2">&quot;--------------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
@@ -229,7 +250,7 @@
 <span class="sd">    Args: mensaje (str): El texto del mensaje informativo a mostrar.</span>
 <span class="sd">    Returns: no tiene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;ℹ️ </span><span class="si">{</span><span class="n">mensaje</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> </div>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;ℹ️ </span><span class="si">{</span><span class="n">mensaje</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -260,7 +281,7 @@
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../productos.html">productos module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Proyecto Talento</a></li>
 </ul>
 
 <div class="relations">

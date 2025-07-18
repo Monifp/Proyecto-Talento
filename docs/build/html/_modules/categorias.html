@@ -52,8 +52,8 @@
 <span class="sd">    Args: no tiene</span>
 <span class="sd">    Returns: no tiene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">contar_categorias_db</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
-        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Ud ha alcanzado el límite de 10 categorías.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">contar_categorias_db</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Ud ha alcanzado el límite de 20 categorías.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -90,15 +90,15 @@
             <span class="k">if</span> <span class="n">id_cat</span> <span class="ow">in</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categorias</span><span class="p">]:</span>
                 <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;ID no válido. Intente de nuevo.&quot;</span><span class="p">)</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; ID no válido. Intente de nuevo.&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; Debe ingresar un ID numérico.&quot;</span><span class="p">)</span>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">nuevo_nombre</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el nuevo nombre: &quot;</span><span class="p">)</span>
+        <span class="n">nuevo_nombre</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot; Ingrese el nuevo nombre: &quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nuevo_nombre</span><span class="p">:</span>
             <span class="k">break</span>
-        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; El nombre no puede estar vacío.&quot;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">modificar_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">,</span> <span class="n">nuevo_nombre</span><span class="p">)</span>
@@ -123,17 +123,17 @@
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">id_cat_str</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot;Ingrese el ID de la categoría a eliminar: &quot;</span><span class="p">)</span>
+            <span class="n">id_cat_str</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">obtener_input</span><span class="p">(</span><span class="s2">&quot; Ingrese el ID de la categoría a eliminar: &quot;</span><span class="p">)</span>
             <span class="n">id_cat</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_cat_str</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">id_cat</span> <span class="ow">in</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categorias</span><span class="p">]:</span>
                 <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;ID no válido. Intente de nuevo.&quot;</span><span class="p">)</span>
+                <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; ID no válido. Intente de nuevo.&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Debe ingresar un ID numérico.&quot;</span><span class="p">)</span>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; Debe ingresar un ID numérico.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">contar_productos_en_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;No se puede eliminar, tiene productos asociados.&quot;</span><span class="p">)</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; No se puede eliminar, tiene productos asociados.&quot;</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="n">db</span><span class="o">.</span><span class="n">eliminar_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">)</span>
@@ -163,7 +163,7 @@
         <span class="k">elif</span> <span class="n">opcion</span> <span class="o">==</span> <span class="s1">&#39;5&#39;</span><span class="p">:</span>
             <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot;Opción inválida.&quot;</span><span class="p">)</span></div>
+            <span class="n">ui</span><span class="o">.</span><span class="n">mostrar_mensaje_error</span><span class="p">(</span><span class="s2">&quot; Opción inválida.&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -194,7 +194,7 @@
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../productos.html">productos module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Proyecto Talento</a></li>
 </ul>
 
 <div class="relations">

@@ -112,14 +112,14 @@
 <div class="viewcode-block" id="obtener_categorias_db">
 <a class="viewcode-back" href="../database.html#database.obtener_categorias_db">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">obtener_categorias_db</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera todas las categorías de la base de datos, ordenadas por nombre.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera todas las categorías de la base de datos, ordenadas por Id.</span>
 <span class="sd">    args: no tiene</span>
 <span class="sd">    return: Una lista de tuplas, donde cada tupla es (id, nombre).</span>
 <span class="sd">     </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
     <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, nombre FROM categorias ORDER BY nombre&quot;</span><span class="p">)</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, nombre FROM categorias ORDER BY id&quot;</span><span class="p">)</span>
     <span class="n">categorias</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">categorias</span></div>
@@ -131,8 +131,12 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Agrega una nueva categoría a la base de datos.</span>
 <span class="sd">    Valida que el nombre no esté vacío y no exista ya en la base de datos.</span>
 <span class="sd">    Si la categoría se agrega correctamente, retorna el ID de la nueva categoría.</span>
-<span class="sd">    Args: nombre (str): El nombre de la nueva categoría.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    nombre (str): El nombre de la nueva categoría.</span>
+<span class="sd">    </span>
 <span class="sd">    Levanta un error sqlite3.IntegrityError: Si el nombre ya existe en la base de datos.     </span>
+<span class="sd">    </span>
 <span class="sd">    return: El ID de la categoría recién creada.</span>
 <span class="sd">     </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -149,10 +153,14 @@
 <a class="viewcode-back" href="../database.html#database.modificar_categoria_db">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">modificar_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">,</span> <span class="n">nuevo_nombre</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Modifica el nombre de una categoría existente.</span>
+<span class="sd">    </span>
 <span class="sd">    Valida que el ID sea correcto y que el nuevo nombre no esté vacío.</span>
 <span class="sd">    Si la modificación es exitosa, actualiza la base de datos.</span>
-<span class="sd">    Args: id_cat (int): El ID de la categoría a modificar.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_cat (int): El ID de la categoría a modificar.</span>
 <span class="sd">    nuevo_nombre (str): El nuevo nombre para la categoría.</span>
+<span class="sd">    </span>
 <span class="sd">    return: no tiene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
@@ -166,7 +174,9 @@
 <a class="viewcode-back" href="../database.html#database.contar_productos_en_categoria_db">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">contar_productos_en_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cuenta el número de productos asociados a una categoría específica.</span>
+<span class="sd">    </span>
 <span class="sd">    Args: id_cat (int): El ID de la categoría a consultar.</span>
+<span class="sd">    </span>
 <span class="sd">    return: El número de productos en la categoría.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
@@ -220,13 +230,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Agrega un nuevo producto a la base de datos.</span>
 <span class="sd">    Valida que el nombre no esté vacío y que la categoría exista.</span>
 <span class="sd">    Si el producto se agrega correctamente, retorna el ID del nuevo producto.</span>
+<span class="sd">    </span>
 <span class="sd">    Args: </span>
 <span class="sd">    nombre (str): El nombre del producto.</span>
 <span class="sd">    descripcion (str): La descripción del producto.    </span>
 <span class="sd">    cantidad (int): La cantidad en stock.</span>
 <span class="sd">    precio (int)</span>
 <span class="sd">    cat_id (int): El ID de la categoría a la que pertenece.</span>
+<span class="sd">    </span>
 <span class="sd">    Levanta un error sqlite3.IntegrityError: Si el nombre del producto ya existe.</span>
+<span class="sd">    </span>
 <span class="sd">    return: no tiene      </span>
 <span class="sd">     </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -244,7 +257,9 @@
 <a class="viewcode-back" href="../database.html#database.obtener_producto_por_id_db">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">obtener_producto_por_id_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera un único producto por su ID.</span>
-<span class="sd">    Args: id_prod (int): El ID del producto a buscar.</span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_prod (int): El ID del producto a buscar.</span>
+<span class="sd">    </span>
 <span class="sd">    return: Una tupla con los datos del producto, o None si no se encuentra.</span>
 <span class="sd">    Formato: (id, nombre, desc, cant, precio, nombre_cat).</span>
 <span class="sd">     </span>
@@ -267,8 +282,12 @@
 <a class="viewcode-back" href="../database.html#database.eliminar_producto_db">[documentos]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">eliminar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina un producto por su ID.</span>
-<span class="sd">    Args: id_prod (int): El ID del producto a eliminar.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_prod (int): El ID del producto a eliminar.</span>
+<span class="sd">    </span>
 <span class="sd">    Levanta un error sqlite3.IntegrityError: Si el producto no existe.</span>
+<span class="sd">    </span>
 <span class="sd">    return: no tiene</span>
 <span class="sd">     </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -288,6 +307,7 @@
 <span class="sd">    id_prod (int): El ID del producto a modificar.</span>
 <span class="sd">    campo_a_modificar (str): La columna a cambiar (ej: &#39;nombre&#39;, &#39;cantidad&#39;).</span>
 <span class="sd">    nuevo_valor (any): El nuevo valor para el campo.</span>
+
 <span class="sd">    Levanta un error ValueError: Si &#39;campo_a_modificar&#39; no está en la lista permitida.</span>
 
 <span class="sd">    return: no tiene</span>

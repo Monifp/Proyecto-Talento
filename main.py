@@ -17,6 +17,7 @@ def main():
     Descripción: Inicializa la base de datos, muestra el menú principal y
     gestiona las interacciones del usuario hasta que decida salir.
     """
+
     init(autoreset=True)
     db.inicializar_db()
 

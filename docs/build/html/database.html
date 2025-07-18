@@ -48,10 +48,11 @@ asegurando que las claves foráneas estén habilitadas para mantener la integrid
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">agregar_categoria_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#agregar_categoria_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.agregar_categoria_db" title="Link to this definition">¶</a></dt>
 <dd><p>Agrega una nueva categoría a la base de datos.
 Valida que el nombre no esté vacío y no exista ya en la base de datos.
-Si la categoría se agrega correctamente, retorna el ID de la nueva categoría.
-Args: nombre (str): El nombre de la nueva categoría.
-Levanta un error sqlite3.IntegrityError: Si el nombre ya existe en la base de datos.
-return: El ID de la categoría recién creada.</p>
+Si la categoría se agrega correctamente, retorna el ID de la nueva categoría.</p>
+<p>Args:
+nombre (str): El nombre de la nueva categoría.</p>
+<p>Levanta un error sqlite3.IntegrityError: Si el nombre ya existe en la base de datos.</p>
+<p>return: El ID de la categoría recién creada.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -59,15 +60,15 @@ return: El ID de la categoría recién creada.</p>
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">agregar_producto_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cantidad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cat_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#agregar_producto_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.agregar_producto_db" title="Link to this definition">¶</a></dt>
 <dd><p>Agrega un nuevo producto a la base de datos.
 Valida que el nombre no esté vacío y que la categoría exista.
-Si el producto se agrega correctamente, retorna el ID del nuevo producto.
-Args:
+Si el producto se agrega correctamente, retorna el ID del nuevo producto.</p>
+<p>Args:
 nombre (str): El nombre del producto.
 descripcion (str): La descripción del producto.
 cantidad (int): La cantidad en stock.
 precio (int)
-cat_id (int): El ID de la categoría a la que pertenece.
-Levanta un error sqlite3.IntegrityError: Si el nombre del producto ya existe.
-return: no tiene</p>
+cat_id (int): El ID de la categoría a la que pertenece.</p>
+<p>Levanta un error sqlite3.IntegrityError: Si el nombre del producto ya existe.</p>
+<p>return: no tiene</p>
 </dd></dl>
 
 <dl class="py function">
@@ -81,9 +82,9 @@ return: El número total de categorías.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="database.contar_productos_en_categoria_db">
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">contar_productos_en_categoria_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_cat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#contar_productos_en_categoria_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.contar_productos_en_categoria_db" title="Link to this definition">¶</a></dt>
-<dd><p>Cuenta el número de productos asociados a una categoría específica.
-Args: id_cat (int): El ID de la categoría a consultar.
-return: El número de productos en la categoría.</p>
+<dd><p>Cuenta el número de productos asociados a una categoría específica.</p>
+<p>Args: id_cat (int): El ID de la categoría a consultar.</p>
+<p>return: El número de productos en la categoría.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -97,10 +98,11 @@ args: id_cat (int): El ID de la categoría a eliminar.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="database.eliminar_producto_db">
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">eliminar_producto_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_prod</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#eliminar_producto_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.eliminar_producto_db" title="Link to this definition">¶</a></dt>
-<dd><p>Elimina un producto por su ID.
-Args: id_prod (int): El ID del producto a eliminar.
-Levanta un error sqlite3.IntegrityError: Si el producto no existe.
-return: no tiene</p>
+<dd><p>Elimina un producto por su ID.</p>
+<p>Args:
+id_prod (int): El ID del producto a eliminar.</p>
+<p>Levanta un error sqlite3.IntegrityError: Si el producto no existe.</p>
+<p>return: no tiene</p>
 </dd></dl>
 
 <dl class="py function">
@@ -115,12 +117,13 @@ Returns: no tiene</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="database.modificar_categoria_db">
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">modificar_categoria_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_cat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nuevo_nombre</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#modificar_categoria_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.modificar_categoria_db" title="Link to this definition">¶</a></dt>
-<dd><p>Modifica el nombre de una categoría existente.
-Valida que el ID sea correcto y que el nuevo nombre no esté vacío.
-Si la modificación es exitosa, actualiza la base de datos.
-Args: id_cat (int): El ID de la categoría a modificar.
-nuevo_nombre (str): El nuevo nombre para la categoría.
-return: no tiene</p>
+<dd><p>Modifica el nombre de una categoría existente.</p>
+<p>Valida que el ID sea correcto y que el nuevo nombre no esté vacío.
+Si la modificación es exitosa, actualiza la base de datos.</p>
+<p>Args:
+id_cat (int): El ID de la categoría a modificar.
+nuevo_nombre (str): El nuevo nombre para la categoría.</p>
+<p>return: no tiene</p>
 </dd></dl>
 
 <dl class="py function">
@@ -131,15 +134,15 @@ Permite cambiar el nombre, descripción, cantidad, precio o categoría.
 Args:
 id_prod (int): El ID del producto a modificar.
 campo_a_modificar (str): La columna a cambiar (ej: “nombre”, “cantidad”).
-nuevo_valor (any): El nuevo valor para el campo.
-Levanta un error ValueError: Si “campo_a_modificar” no está en la lista permitida.</p>
+nuevo_valor (any): El nuevo valor para el campo.</p>
+<p>Levanta un error ValueError: Si “campo_a_modificar” no está en la lista permitida.</p>
 <p>return: no tiene</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="database.obtener_categorias_db">
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">obtener_categorias_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#obtener_categorias_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.obtener_categorias_db" title="Link to this definition">¶</a></dt>
-<dd><p>Recupera todas las categorías de la base de datos, ordenadas por nombre.
+<dd><p>Recupera todas las categorías de la base de datos, ordenadas por Id.
 args: no tiene
 return: Una lista de tuplas, donde cada tupla es (id, nombre).</p>
 </dd></dl>
@@ -158,8 +161,9 @@ Returns: sqlite3.Connection: Un objeto de conexión a la base de datos.</p>
 <dt class="sig sig-object py" id="database.obtener_producto_por_id_db">
 <span class="sig-prename descclassname"><span class="pre">database.</span></span><span class="sig-name descname"><span class="pre">obtener_producto_por_id_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_prod</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/database.html#obtener_producto_por_id_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#database.obtener_producto_por_id_db" title="Link to this definition">¶</a></dt>
 <dd><p>Recupera un único producto por su ID.
-Args: id_prod (int): El ID del producto a buscar.
-return: Una tupla con los datos del producto, o None si no se encuentra.
+Args:
+id_prod (int): El ID del producto a buscar.</p>
+<p>return: Una tupla con los datos del producto, o None si no se encuentra.
 Formato: (id, nombre, desc, cant, precio, nombre_cat).</p>
 </dd></dl>
 
@@ -217,6 +221,7 @@ Formato de cada tupla:(id, nombre, descripcion, cantidad, precio, nombre_categor
 <li class="toctree-l2"><a class="reference internal" href="inventario.html">inventario module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="productos.html">productos module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ui.html">ui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="categorias.html">categorias module</a></li>
 </ul>
 </li>
 </ul>

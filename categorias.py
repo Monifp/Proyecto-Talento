@@ -16,8 +16,8 @@ def agregar_nueva_categoria():
     Args: no tiene
     Returns: no tiene
     """
-    if db.contar_categorias_db() >= 10:
-        ui.mostrar_mensaje_error("Ud ha alcanzado el límite de 10 categorías.")
+    if db.contar_categorias_db() >= 20:
+        ui.mostrar_mensaje_error("Ud ha alcanzado el límite de 20 categorías.")
         return
 
     while True:
@@ -51,15 +51,15 @@ def modificar_una_categoria():
             if id_cat in [c[0] for c in categorias]:
                 break
             else:
-                ui.mostrar_mensaje_error("ID no válido. Intente de nuevo.")
+                ui.mostrar_mensaje_error(" ID no válido. Intente de nuevo.")
         except ValueError:
             ui.mostrar_mensaje_error(" Debe ingresar un ID numérico.")
 
     while True:
-        nuevo_nombre = ui.obtener_input("Ingrese el nuevo nombre: ")
+        nuevo_nombre = ui.obtener_input(" Ingrese el nuevo nombre: ")
         if nuevo_nombre:
             break
-        ui.mostrar_mensaje_error("El nombre no puede estar vacío.")
+        ui.mostrar_mensaje_error(" El nombre no puede estar vacío.")
 
     try:
         db.modificar_categoria_db(id_cat, nuevo_nombre)
@@ -81,17 +81,17 @@ def eliminar_una_categoria():
 
     while True:
         try:
-            id_cat_str = ui.obtener_input("Ingrese el ID de la categoría a eliminar: ")
+            id_cat_str = ui.obtener_input(" Ingrese el ID de la categoría a eliminar: ")
             id_cat = int(id_cat_str)
             if id_cat in [c[0] for c in categorias]:
                 break
             else:
-                ui.mostrar_mensaje_error("ID no válido. Intente de nuevo.")
+                ui.mostrar_mensaje_error(" ID no válido. Intente de nuevo.")
         except ValueError:
-            ui.mostrar_mensaje_error("Debe ingresar un ID numérico.")
+            ui.mostrar_mensaje_error(" Debe ingresar un ID numérico.")
 
     if db.contar_productos_en_categoria_db(id_cat) > 0:
-        ui.mostrar_mensaje_error("No se puede eliminar, tiene productos asociados.")
+        ui.mostrar_mensaje_error(" No se puede eliminar, tiene productos asociados.")
         return
 
     db.eliminar_categoria_db(id_cat)
@@ -118,4 +118,4 @@ def gestionar_categorias():
         elif opcion == '5':
             break
         else:
-            ui.mostrar_mensaje_error("Opción inválida.")
+            ui.mostrar_mensaje_error(" Opción inválida.")

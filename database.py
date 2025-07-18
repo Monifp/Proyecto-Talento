@@ -67,14 +67,14 @@ def contar_categorias_db():
     return total
 
 def obtener_categorias_db():
-    """Recupera todas las categorías de la base de datos, ordenadas por nombre.
+    """Recupera todas las categorías de la base de datos, ordenadas por Id.
     args: no tiene
     return: Una lista de tuplas, donde cada tupla es (id, nombre).
      
     """
     conn = obtener_conexion()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, nombre FROM categorias ORDER BY nombre")
+    cursor.execute("SELECT id, nombre FROM categorias ORDER BY id")
     categorias = cursor.fetchall()
     conn.close()
     return categorias
@@ -83,8 +83,12 @@ def agregar_categoria_db(nombre):
     """Agrega una nueva categoría a la base de datos.
     Valida que el nombre no esté vacío y no exista ya en la base de datos.
     Si la categoría se agrega correctamente, retorna el ID de la nueva categoría.
-    Args: nombre (str): El nombre de la nueva categoría.
+    
+    Args: 
+    nombre (str): El nombre de la nueva categoría.
+    
     Levanta un error sqlite3.IntegrityError: Si el nombre ya existe en la base de datos.     
+    
     return: El ID de la categoría recién creada.
      
     """
@@ -98,10 +102,14 @@ def agregar_categoria_db(nombre):
 
 def modificar_categoria_db(id_cat, nuevo_nombre):
     """Modifica el nombre de una categoría existente.
+    
     Valida que el ID sea correcto y que el nuevo nombre no esté vacío.
     Si la modificación es exitosa, actualiza la base de datos.
-    Args: id_cat (int): El ID de la categoría a modificar.
+    
+    Args: 
+    id_cat (int): El ID de la categoría a modificar.
     nuevo_nombre (str): El nuevo nombre para la categoría.
+    
     return: no tiene
     """
     conn = obtener_conexion()
@@ -112,7 +120,9 @@ def modificar_categoria_db(id_cat, nuevo_nombre):
 
 def contar_productos_en_categoria_db(id_cat):
     """Cuenta el número de productos asociados a una categoría específica.
+    
     Args: id_cat (int): El ID de la categoría a consultar.
+    
     return: El número de productos en la categoría.
     """
     conn = obtener_conexion()
@@ -157,13 +167,16 @@ def agregar_producto_db(nombre, descripcion, cantidad, precio, cat_id):
     """Agrega un nuevo producto a la base de datos.
     Valida que el nombre no esté vacío y que la categoría exista.
     Si el producto se agrega correctamente, retorna el ID del nuevo producto.
+    
     Args: 
     nombre (str): El nombre del producto.
     descripcion (str): La descripción del producto.    
     cantidad (int): La cantidad en stock.
     precio (int)
     cat_id (int): El ID de la categoría a la que pertenece.
+    
     Levanta un error sqlite3.IntegrityError: Si el nombre del producto ya existe.
+    
     return: no tiene      
      
     """
@@ -178,7 +191,9 @@ def agregar_producto_db(nombre, descripcion, cantidad, precio, cat_id):
 
 def obtener_producto_por_id_db(id_prod):
     """Recupera un único producto por su ID.
-    Args: id_prod (int): El ID del producto a buscar.
+    Args: 
+    id_prod (int): El ID del producto a buscar.
+    
     return: Una tupla con los datos del producto, o None si no se encuentra.
     Formato: (id, nombre, desc, cant, precio, nombre_cat).
      
@@ -198,8 +213,12 @@ def obtener_producto_por_id_db(id_prod):
 
 def eliminar_producto_db(id_prod):
     """Elimina un producto por su ID.
-    Args: id_prod (int): El ID del producto a eliminar.
+    
+    Args: 
+    id_prod (int): El ID del producto a eliminar.
+    
     Levanta un error sqlite3.IntegrityError: Si el producto no existe.
+    
     return: no tiene
      
     """
@@ -216,6 +235,7 @@ def modificar_producto_db(id_prod, campo_a_modificar, nuevo_valor):
     id_prod (int): El ID del producto a modificar.
     campo_a_modificar (str): La columna a cambiar (ej: 'nombre', 'cantidad').
     nuevo_valor (any): El nuevo valor para el campo.
+
     Levanta un error ValueError: Si 'campo_a_modificar' no está en la lista permitida.
 
     return: no tiene
