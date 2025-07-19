@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>database &#8212; documentación de Proyecto Talento - 1.0</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=4936afed"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para database</h1><div class="highlight"><pre>
+<span></span> <span class="c1"># database.py</span>
+<span class="sd">&quot;&quot;&quot;Módulo de Acceso a Datos (Data Access Layer).</span>
+
+<span class="sd">Este módulo centraliza todas las interacciones con la base de datos SQLite,</span>
+<span class="sd">&#39;inventario.db&#39;. Abstrae la lógica SQL del resto de la aplicación,</span>
+<span class="sd">permitiendo un acceso más limpio y organizado a las operaciones CRUD</span>
+<span class="sd">(Create, Read, Update, Delete) sobre las tablas &#39;categorias&#39; y &#39;productos&#39;.</span>
+<span class="sd">Incluye funciones para inicializar la base de datos y manejar las conexiones,</span>
+<span class="sd">asegurando que las claves foráneas estén habilitadas para mantener la integridad referencial. </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+
+<span class="n">DB_NAME</span> <span class="o">=</span> <span class="s2">&quot;inventario.db&quot;</span>
+
+<div class="viewcode-block" id="obtener_conexion">
+<a class="viewcode-back" href="../database.html#database.obtener_conexion">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obtener_conexion</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Establece y retorna una conexión a la base de datos.</span>
+
+<span class="sd">    Activa el soporte para claves foráneas (`PRAGMA foreign_keys = ON`)</span>
+<span class="sd">    para garantizar la integridad referencial en cada conexión.</span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    Returns: sqlite3.Connection: Un objeto de conexión a la base de datos.</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_NAME</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;PRAGMA foreign_keys = ON;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">conn</span></div>
+
+
+<div class="viewcode-block" id="inicializar_db">
+<a class="viewcode-back" href="../database.html#database.inicializar_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">inicializar_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Crea el esquema de la base de datos si las tablas no existen.</span>
+<span class="sd">    Define y crea las tablas &#39;categorias&#39; y &#39;productos&#39;.</span>
+<span class="sd">    args: no tiene</span>
+<span class="sd">    Returns: no tiene  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE TABLE IF NOT EXISTS categorias (</span>
+<span class="s2">            id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s2">            nombre TEXT NOT NULL UNIQUE</span>
+<span class="s2">        )</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE TABLE IF NOT EXISTS productos (</span>
+<span class="s2">            id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s2">            nombre TEXT NOT NULL,</span>
+<span class="s2">            descripcion TEXT NOT NULL,</span>
+<span class="s2">            cantidad INTEGER NOT NULL,</span>
+<span class="s2">            precio INTEGER NOT NULL,</span>
+<span class="s2">            categoria_id INTEGER NOT NULL,</span>
+<span class="s2">            FOREIGN KEY (categoria_id) REFERENCES categorias (id) ON DELETE RESTRICT</span>
+<span class="s2">        )</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="contar_categorias_db">
+<a class="viewcode-back" href="../database.html#database.contar_categorias_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">contar_categorias_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cuenta el número total de categorías en la base de datos.</span>
+<span class="sd">    Args: no tiene</span>
+<span class="sd">    return: El número total de categorías.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM categorias&quot;</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="obtener_categorias_db">
+<a class="viewcode-back" href="../database.html#database.obtener_categorias_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obtener_categorias_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera todas las categorías de la base de datos, ordenadas por Id.</span>
+<span class="sd">    args: no tiene</span>
+<span class="sd">    return: Una lista de tuplas, donde cada tupla es (id, nombre).</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, nombre FROM categorias ORDER BY id&quot;</span><span class="p">)</span>
+    <span class="n">categorias</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">categorias</span></div>
+
+
+<div class="viewcode-block" id="agregar_categoria_db">
+<a class="viewcode-back" href="../database.html#database.agregar_categoria_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">agregar_categoria_db</span><span class="p">(</span><span class="n">nombre</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Agrega una nueva categoría a la base de datos.</span>
+<span class="sd">    Valida que el nombre no esté vacío y no exista ya en la base de datos.</span>
+<span class="sd">    Si la categoría se agrega correctamente, retorna el ID de la nueva categoría.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    nombre (str): El nombre de la nueva categoría.</span>
+<span class="sd">    </span>
+<span class="sd">    Levanta un error sqlite3.IntegrityError: Si el nombre ya existe en la base de datos.     </span>
+<span class="sd">    </span>
+<span class="sd">    return: El ID de la categoría recién creada.</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO categorias (nombre) VALUES (?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">nombre</span><span class="p">,))</span>
+    <span class="n">nuevo_id</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">nuevo_id</span></div>
+
+
+<div class="viewcode-block" id="modificar_categoria_db">
+<a class="viewcode-back" href="../database.html#database.modificar_categoria_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">modificar_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">,</span> <span class="n">nuevo_nombre</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Modifica el nombre de una categoría existente.</span>
+<span class="sd">    </span>
+<span class="sd">    Valida que el ID sea correcto y que el nuevo nombre no esté vacío.</span>
+<span class="sd">    Si la modificación es exitosa, actualiza la base de datos.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_cat (int): El ID de la categoría a modificar.</span>
+<span class="sd">    nuevo_nombre (str): El nuevo nombre para la categoría.</span>
+<span class="sd">    </span>
+<span class="sd">    return: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE categorias SET nombre = ? WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">nuevo_nombre</span><span class="p">,</span> <span class="n">id_cat</span><span class="p">))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="contar_productos_en_categoria_db">
+<a class="viewcode-back" href="../database.html#database.contar_productos_en_categoria_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">contar_productos_en_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cuenta el número de productos asociados a una categoría específica.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: id_cat (int): El ID de la categoría a consultar.</span>
+<span class="sd">    </span>
+<span class="sd">    return: El número de productos en la categoría.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM productos WHERE categoria_id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">id_cat</span><span class="p">,))</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="eliminar_categoria_db">
+<a class="viewcode-back" href="../database.html#database.eliminar_categoria_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_categoria_db</span><span class="p">(</span><span class="n">id_cat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina una categoría por su ID.</span>
+<span class="sd">    Valida que la categoría no tenga productos asociados antes de eliminarla.</span>
+<span class="sd">    args: id_cat (int): El ID de la categoría a eliminar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM categorias WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">id_cat</span><span class="p">,))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="obtener_productos_db">
+<a class="viewcode-back" href="../database.html#database.obtener_productos_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obtener_productos_db</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera todos los productos con sus detalles y nombre de categoría.</span>
+<span class="sd">    args: no tiene</span>
+<span class="sd">    return: Lista de tuplas. Formato de cada tupla:</span>
+<span class="sd">    (id, nombre, descripcion, cantidad, precio, nombre_categoria).</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio, c.nombre</span>
+<span class="s2">        FROM productos p</span>
+<span class="s2">        JOIN categorias c ON p.categoria_id = c.id</span>
+<span class="s2">        ORDER BY p.nombre</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">productos</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">productos</span></div>
+
+
+<div class="viewcode-block" id="agregar_producto_db">
+<a class="viewcode-back" href="../database.html#database.agregar_producto_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">agregar_producto_db</span><span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">descripcion</span><span class="p">,</span> <span class="n">cantidad</span><span class="p">,</span> <span class="n">precio</span><span class="p">,</span> <span class="n">cat_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Agrega un nuevo producto a la base de datos.</span>
+<span class="sd">    Valida que el nombre no esté vacío y que la categoría exista.</span>
+<span class="sd">    Si el producto se agrega correctamente, retorna el ID del nuevo producto.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    nombre (str): El nombre del producto.</span>
+<span class="sd">    descripcion (str): La descripción del producto.    </span>
+<span class="sd">    cantidad (int): La cantidad en stock.</span>
+<span class="sd">    precio (int)</span>
+<span class="sd">    cat_id (int): El ID de la categoría a la que pertenece.</span>
+<span class="sd">    </span>
+<span class="sd">    Levanta un error sqlite3.IntegrityError: Si el nombre del producto ya existe.</span>
+<span class="sd">    </span>
+<span class="sd">    return: no tiene      </span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">&quot;INSERT INTO productos (nombre, descripcion, cantidad, precio, categoria_id) VALUES (?, ?, ?, ?, ?)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">nombre</span><span class="p">,</span> <span class="n">descripcion</span><span class="p">,</span> <span class="n">cantidad</span><span class="p">,</span> <span class="n">precio</span><span class="p">,</span> <span class="n">cat_id</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="obtener_producto_por_id_db">
+<a class="viewcode-back" href="../database.html#database.obtener_producto_por_id_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obtener_producto_por_id_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera un único producto por su ID.</span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_prod (int): El ID del producto a buscar.</span>
+<span class="sd">    </span>
+<span class="sd">    return: Una tupla con los datos del producto, o None si no se encuentra.</span>
+<span class="sd">    Formato: (id, nombre, desc, cant, precio, nombre_cat).</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio, c.nombre</span>
+<span class="s2">        FROM productos p</span>
+<span class="s2">        JOIN categorias c ON p.categoria_id = c.id</span>
+<span class="s2">        WHERE p.id = ?</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">id_prod</span><span class="p">,))</span>
+    <span class="n">resultado</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">resultado</span></div>
+
+
+<div class="viewcode-block" id="eliminar_producto_db">
+<a class="viewcode-back" href="../database.html#database.eliminar_producto_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eliminar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Elimina un producto por su ID.</span>
+<span class="sd">    </span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_prod (int): El ID del producto a eliminar.</span>
+<span class="sd">    </span>
+<span class="sd">    Levanta un error sqlite3.IntegrityError: Si el producto no existe.</span>
+<span class="sd">    </span>
+<span class="sd">    return: no tiene</span>
+<span class="sd">     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM productos WHERE id = ?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">id_prod</span><span class="p">,))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="modificar_producto_db">
+<a class="viewcode-back" href="../database.html#database.modificar_producto_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">modificar_producto_db</span><span class="p">(</span><span class="n">id_prod</span><span class="p">,</span> <span class="n">campo_a_modificar</span><span class="p">,</span> <span class="n">nuevo_valor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Modifica un campo específico de un producto. </span>
+<span class="sd">    Permite cambiar el nombre, descripción, cantidad, precio o categoría.</span>
+<span class="sd">    Args: </span>
+<span class="sd">    id_prod (int): El ID del producto a modificar.</span>
+<span class="sd">    campo_a_modificar (str): La columna a cambiar (ej: &#39;nombre&#39;, &#39;cantidad&#39;).</span>
+<span class="sd">    nuevo_valor (any): El nuevo valor para el campo.</span>
+
+<span class="sd">    Levanta un error ValueError: Si &#39;campo_a_modificar&#39; no está en la lista permitida.</span>
+
+<span class="sd">    return: no tiene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">campos_permitidos</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;cantidad&#39;</span><span class="p">,</span> <span class="s1">&#39;precio&#39;</span><span class="p">,</span> <span class="s1">&#39;categoria_id&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">campo_a_modificar</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">campos_permitidos</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Campo no válido para modificar&quot;</span><span class="p">)</span>
+
+    <span class="n">sql</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;UPDATE productos SET </span><span class="si">{</span><span class="n">campo_a_modificar</span><span class="si">}</span><span class="s2"> = ? WHERE id = ?&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">nuevo_valor</span><span class="p">,</span> <span class="n">id_prod</span><span class="p">))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="obtener_productos_por_stock_db">
+<a class="viewcode-back" href="../database.html#database.obtener_productos_por_stock_db">[documentos]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">obtener_productos_por_stock_db</span><span class="p">(</span><span class="n">limite</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recupera productos cuya cantidad sea menor o igual a un límite.</span>
+<span class="sd">    Args: limite: El número máximo de stock para el filtro.</span>
+<span class="sd"> </span>
+<span class="sd">    return: Lista de productos con stock bajo. </span>
+<span class="sd">    Formato de cada tupla:(id, nombre, descripcion, cantidad, precio, nombre_categoria).</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">obtener_conexion</span><span class="p">()</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio, c.nombre</span>
+<span class="s2">        FROM productos p</span>
+<span class="s2">        JOIN categorias c ON p.categoria_id = c.id</span>
+<span class="s2">        WHERE p.cantidad &lt;= ?</span>
+<span class="s2">        ORDER BY p.cantidad ASC</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="p">(</span><span class="n">limite</span><span class="p">,))</span>
+    <span class="n">productos</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">productos</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Proyecto Talento</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Proyecto Talento</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Monica Ferreiro Pose.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

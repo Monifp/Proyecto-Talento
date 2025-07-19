@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>categorias module &#8212; documentación de Proyecto Talento - 1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=4936afed"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=f85f4cfb"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="ui module" href="ui.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-categorias">
+<span id="categorias-module"></span><h1>categorias module<a class="headerlink" href="#module-categorias" title="Link to this heading">¶</a></h1>
+<p>Módulo de lógica de negocio para la gestión de categorías. 📋
+Responsable de agregar, modificar, eliminar y listar categorías,
+con validaciones y manejo de errores.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="categorias.agregar_nueva_categoria">
+<span class="sig-prename descclassname"><span class="pre">categorias.</span></span><span class="sig-name descname"><span class="pre">agregar_nueva_categoria</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/categorias.html#agregar_nueva_categoria"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#categorias.agregar_nueva_categoria" title="Link to this definition">¶</a></dt>
+<dd><p>Orquesta la adición de una nueva categoría, validando la entrada.
+Si ya hay 10 categorías, muestra un mensaje de error.
+Al agregar, verifica que el nombre no esté vacío y no exista ya en la base de datos.
+Si la categoría se agrega correctamente, muestra un mensaje de éxito.
+Args: no tiene
+Returns: no tiene</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="categorias.eliminar_una_categoria">
+<span class="sig-prename descclassname"><span class="pre">categorias.</span></span><span class="sig-name descname"><span class="pre">eliminar_una_categoria</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/categorias.html#eliminar_una_categoria"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#categorias.eliminar_una_categoria" title="Link to this definition">¶</a></dt>
+<dd><p>Orquesta la eliminación de una categoría, con validaciones.
+Muestra una lista de categorías y permite al usuario seleccionar una por ID.
+Valida que el ID sea correcto y que la categoría no tenga productos asociados.
+Si la eliminación es exitosa, muestra un mensaje de éxito.
+args: no tiene
+returns: no tiene</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="categorias.gestionar_categorias">
+<span class="sig-prename descclassname"><span class="pre">categorias.</span></span><span class="sig-name descname"><span class="pre">gestionar_categorias</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/categorias.html#gestionar_categorias"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#categorias.gestionar_categorias" title="Link to this definition">¶</a></dt>
+<dd><p>Bucle principal para la gestión de categorías.
+Muestra un menú de opciones y permite al usuario agregar, modificar,
+eliminar o listar categorías.
+args: no tiene
+returns: no tiene</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="categorias.modificar_una_categoria">
+<span class="sig-prename descclassname"><span class="pre">categorias.</span></span><span class="sig-name descname"><span class="pre">modificar_una_categoria</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/categorias.html#modificar_una_categoria"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#categorias.modificar_una_categoria" title="Link to this definition">¶</a></dt>
+<dd><p>Orquesta la modificación del nombre de una categoría existente.
+Muestra una lista de categorías y permite al usuario seleccionar una por ID.
+Valida que el ID sea correcto y que el nuevo nombre no esté vacío.
+Si la modificación es exitosa, muestra un mensaje de éxito.
+args: no tiene
+returns: no tiene</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Proyecto Talento</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Proyecto Talento</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">database module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inventario.html">inventario module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="productos.html">productos module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">ui module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">categorias module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Proyecto Talento</a><ul>
+      <li>Previous: <a href="ui.html" title="capítulo anterior">ui module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Monica Ferreiro Pose.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/categorias.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
