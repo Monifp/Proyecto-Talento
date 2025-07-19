@@ -71,22 +71,9 @@ El proyecto está dividido en módulos, cada uno con una responsabilidad única 
 
 ## 📖 Documentacion
 
-  * Para **ver la documentacion**, ejecutá los siguientes comandos en tu terminal linea por linea, solo la primera vez:
+  * Para **ver la documentacion**, segui el siguiente link:
 
-    ```bash
-    sphinx-quickstart docs
-    sphinx-apidoc -o docs/source/ .py
-    cd docs
-    make.bat html
-    ```
-    Luego abri: 
-    index.html desde el navegador
-
-    Si el comando make.bat html no funciona podes pobrar con:
-
-    ```Powershell
-    .\make.bat html 
-    ```
+    https://monifp.github.io/Proyecto-Talento/
 
     
 ## 🧑‍💻 Copyright
