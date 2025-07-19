@@ -83,12 +83,13 @@ El proyecto está dividido en módulos, cada uno con una responsabilidad única 
     index.html desde el navegador
 
     Si el comando make.bat html no funciona podes pobrar con:
-    Powershell
-    .\make.bat html
 
+    ```Powershell
+    .\make.bat html 
+    ```
+
+    
 ## 🧑‍💻 Copyright
 
 **Monica Ferreiro Pose**
-
----
 -----
